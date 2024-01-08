@@ -1,0 +1,89 @@
+apiVersion: deploy.cloud.google.com/v1beta1
+kind: DeliveryPipeline
+metadata:
+  name: md-boilerplate-pipeline
+description: md-boilerplate-ts application pipeline
+serialPipeline:
+  stages:
+    - targetId: dev
+      profiles: [dev]
+    - targetId: qa
+      profiles: [qa]
+    - targetId: prod
+      profiles: [prod]
+
+
+---
+apiVersion: deploy.cloud.google.com/v1beta1
+kind: Target
+metadata:
+  name: dev
+description: development cluster
+deployParameters:
+  deploy_replicas: "1"
+  sa_name: "{SA_NAME}"
+  environment: "development"
+  project_id: "{DEV_CLUSTER_PROJECT_ID}"
+  service_name: "{SERVICE_NAME}"
+gke:
+  cluster: projects/{DEV_CLUSTER_PROJECT_ID}/locations/{REGION}/clusters/{CLUSTER_NAME}
+  #internalIp: true
+executionConfigs:
+  - usages:
+      - DEPLOY
+    #workerPool: "projects/{CICD_PROJECT_ID}/locations/{REGION}/workerPools/{BUILD_POOL}"
+  - usages:
+      - RENDER
+      - PREDEPLOY
+      - VERIFY
+      - POSTDEPLOY
+
+---
+apiVersion: deploy.cloud.google.com/v1beta1
+kind: Target
+metadata:
+  name: qa
+description: QA cluster
+deployParameters:
+  deploy_replicas: "1"
+  sa_name: "{SA_NAME}"
+  environment: "qa"
+  project_id: "{QA_CLUSTER_PROJECT_ID}"
+  service_name: "{SERVICE_NAME}"
+gke:
+  cluster: projects/{QA_CLUSTER_PROJECT_ID}/locations/{REGION}/clusters/{CLUSTER_NAME}
+  #internalIp: true
+executionConfigs:
+  - usages:
+      - DEPLOY
+    #workerPool: "projects/{CICD_PROJECT_ID}/locations/{REGION}/workerPools/{BUILD_POOL}"
+  - usages:
+      - RENDER
+      - PREDEPLOY
+      - VERIFY
+      - POSTDEPLOY
+
+---
+apiVersion: deploy.cloud.google.com/v1beta1
+kind: Target
+metadata:
+  name: prod
+description: Production cluster
+deployParameters:
+  deploy_replicas: "1"
+  sa_name: "{SA_NAME}"
+  environment: "production"
+  project_id: "{PROD_CLUSTER_PROJECT_ID}"
+  service_name: "{SERVICE_NAME}"
+gke:
+  cluster: projects/{PROD_CLUSTER_PROJECT_ID}/locations/{REGION}/clusters/{CLUSTER_NAME}
+  #internalIp: true
+executionConfigs:
+  - usages:
+      - DEPLOY
+    #workerPool: "projects/{CICD_PROJECT_ID}/locations/{REGION}/workerPools/{BUILD_POOL}"
+  - usages:
+      - RENDER
+      - PREDEPLOY
+      - VERIFY
+      - POSTDEPLOY

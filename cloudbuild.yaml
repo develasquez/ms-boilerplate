@@ -1,0 +1,17 @@
+steps:
+#Build and push docker image
+- name: 'gcr.io/cloud-builders/docker'
+  script: |
+    #!/usr/bin/env bash
+    export $(grep -v '^#' .env_deploy | xargs)
+    export VERSION=$(date '+%Y%m%d%H%M%S')
+    export IMAGE="$REGION-docker.pkg.dev/$CICD_PROJECT_ID/$ARTIFACT_REPOSITORY/$SERVICE_NAME:$VERSION"
+    echo $IMAGE > /workspace/image.txt
+    docker build -t $IMAGE .
+    docker push $IMAGE 
+#Execute deploy.sh with image tag provided by docker build step
+- name: 'gcr.io/cloud-builders/gcloud'
+  script: |
+    #!/usr/bin/env bash
+    export IMAGE=$(cat /workspace/image.txt)
+    sh deploy.sh $IMAGE 

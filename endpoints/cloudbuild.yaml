@@ -1,0 +1,7 @@
+steps:
+#Deploy openapi to Cloud Endpoints using trigger substitutions
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args: ['endpoints/deploy_endpoints.sh']
+  env:
+  - '_PROJECT_ID=$_PROJECT_ID'

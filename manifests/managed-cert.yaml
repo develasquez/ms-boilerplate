@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: ms-boilerplate-managed-cert
+spec:
+  domains:
+    - <YOUR_VALID_DOMAIN>
+

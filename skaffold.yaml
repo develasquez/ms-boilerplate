@@ -1,0 +1,12 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+profiles:
+  - name: dev
+    manifests:
+      rawYaml:
+        - manifests/deployment.yaml
+        - manifests/dev-config-map.yaml
+        - manifests/ingress.yaml
+        - manifests/managed-cert.yaml
+        - manifests/config.yaml
+

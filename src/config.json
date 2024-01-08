@@ -1,0 +1,7 @@
+{
+  "basePath": "/ms-boilerplate/v1/",
+  "docs": true,
+  "openapi": true,
+  "allowCors": true,
+  "healtCheck": true
+}
