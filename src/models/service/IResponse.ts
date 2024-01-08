@@ -2,7 +2,7 @@
 export interface IResponse<T> {
   success: boolean,
   code: number,
-  response: T,
+  response?: T,
   errors?: Error,
   embedded?: any,
   links? : any
